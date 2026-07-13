@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoInsight — Professional Automotive Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #001F3F;
+    --primary-light: #003366;
+    --accent: #0066CC;
+    --accent-light: #3399FF;
+    --success: #2E7D32;
+    --warning: #F57C00;
+    --danger: #C62828;
+    --neutral-50: #F9FAFB;
+    --neutral-100: #F3F4F6;
+    --neutral-200: #E5E7EB;
+    --neutral-300: #D1D5DB;
+    --neutral-400: #9CA3AF;
+    --neutral-600: #4B5563;
+    --neutral-700: #374151;
+    --neutral-900: #111827;
+    --white: #FFFFFF;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--neutral-700);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--neutral-900);
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-light);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-secondary {
+    background: var(--neutral-100);
+    color: var(--primary);
+    border: 1px solid var(--neutral-200);
+  }
+
+  .btn-secondary:hover {
+    background: var(--neutral-50);
+    border-color: var(--accent);
+  }
+
+  /* ===== Header ===== */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--neutral-200);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+  }
+
+  .logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--neutral-600);
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--primary);
+  }
+
+  /* ===== Hero Section ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: var(--white);
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 102, 204, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    font-weight: 800;
+  }
+
+  .hero h1 span {
+    color: var(--accent-light);
+  }
+
+  .hero p {
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: 0.95;
+    margin-bottom: 32px;
+    max-width: 500px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* ===== Search Section ===== */
+  .search-section {
+    background: var(--neutral-50);
+    padding: 40px 0;
+    margin: -40px 0 0 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .search-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr auto;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--neutral-600);
+  }
+
+  .form-group select,
+  .form-group input {
+    border: 1.5px solid var(--neutral-200);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--neutral-900);
+    background: var(--white);
+    transition: border-color 0.3s ease;
+  }
+
+  .form-group select:focus,
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--neutral-50);
+  }
+
+  .search-btn {
+    height: 48px;
+    white-space: nowrap;
+  }
+
+  /* ===== Statistics ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 40px 0;
+    border-top: 1px solid var(--neutral-200);
+    margin-top: 40px;
+  }
+
+  .stat-card {
+    text-align: center;
+  }
+
+  .stat-card .value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .stat-card .label {
+    font-size: 13px;
+    color: var(--neutral-600);
+    font-weight: 500;
+  }
+
+  /* ===== Section ===== */
+  section {
+    padding: 64px 0;
+  }
+
+  section.alt {
+    background: var(--neutral-50);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    gap: 20px;
+  }
+
+  .section-header .tag {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+
+  .section-header h2 {
+    font-size: 32px;
+    font-weight: 800;
+  }
+
+  .view-all {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 2px;
+    white-space: nowrap;
+  }
+
+  .view-all:hover {
+    color: var(--accent-light);
+  }
+
+  /* ===== Car Cards ===== */
+  .car-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .car-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--neutral-200);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .car-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent);
+  }
+
+  .car-image {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, var(--neutral-100), var(--neutral-50));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 48px;
+  }
+
+  .car-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .car-badge.success {
+    background: var(--success);
+  }
+
+  .car-content {
+    padding: 20px;
+  }
+
+  .car-content h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .car-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+
+  .car-price span {
+    color: var(--neutral-500);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .car-specs {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--neutral-600);
+    padding-top: 12px;
+    border-top: 1px solid var(--neutral-200);
+  }
+
+  .car-specs div {
+    flex: 1;
+  }
+
+  .car-specs b {
+    color: var(--neutral-900);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ===== Categories ===== */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+
+  .category-card {
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-md);
+    padding: 24px 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .category-card:hover {
+    border-color: var(--accent);
+    background: var(--neutral-50);
+    transform: translateY(-4px);
+  }
+
+  .category-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .category-card span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--neutral-900);
+  }
+
+  /* ===== Compare Section ===== */
+  .compare-container {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    color: var(--white);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .compare-cards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .compare-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .compare-vs {
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--accent-light);
+  }
+
+  .compare-card .car-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .compare-card b {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .compare-card span {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .compare-content h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .compare-content p {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 24px;
+  }
+
+  /* ===== Reviews ===== */
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .review-card {
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all 0.3s ease;
+  }
+
+  .review-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .review-card h3 {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .review-score {
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .review-card p {
+    font-size: 14px;
+    color: var(--neutral-600);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .review-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--neutral-600);
+    border-top: 1px solid var(--neutral-200);
+    padding-top: 12px;
+  }
+
+  .review-meta b {
+    color: var(--neutral-900);
+    font-weight: 600;
+  }
+
+  /* ===== Newsletter ===== */
+  .newsletter {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    color: var(--white);
+  }
+
+  .newsletter h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+
+  .newsletter p {
+    font-size: 14px;
+    opacity: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 8px;
+    min-width: 320px;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--white);
+    color: var(--neutral-900);
+  }
+
+  .newsletter-form input::placeholder {
+    color: var(--neutral-400);
+  }
+
+  .newsletter-form button {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 24px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-form button:hover {
+    background: var(--primary-light);
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    background: var(--primary);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 48px 0 20px;
+    margin-top: 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-section h4 {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .footer-section a {
+    display: block;
+    font-size: 13px;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+  }
+
+  .footer-section a:hover {
+    color: var(--accent-light);
+  }
+
+  .footer-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .footer-logo span {
+    color: var(--accent-light);
+  }
+
+  .footer-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 280px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1024px) {
+    .car-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .category-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .search-card {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .search-btn {
+      grid-column: span 2;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .review-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .compare-container {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+    }
+
+    .hero p {
+      font-size: 15px;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+    }
+
+    .car-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search-card {
+      grid-template-columns: 1fr;
+      padding: 24px;
+    }
+
+    .search-btn {
+      grid-column: auto;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .review-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .newsletter-form input {
+      width: 100%;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 {
+      font-size: 28px;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .car-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">Auto<span>Insight</span></div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#launches">Browse</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#compare">Compare</a></li>
+          <li><a href="#brands">Brands</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-secondary">Sign In</button>
+        <button class="btn btn-primary">Get Started</button>
+        <button class="nav-toggle">☰</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="badge">🚀 New 2026 Launches Available</span>
+      <h1>Professional <span>Automotive</span> Intelligence</h1>
+      <p>Comprehensive reviews, detailed comparisons, and expert analysis. Make informed vehicle decisions with data-driven insights and real-world performance metrics.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary">Start Your Search</button>
+        <button class="btn btn-secondary">Explore Reviews</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section">
+  <div class="container">
+    <div class="search-card">
+      <div class="form-group">
+        <label>Brand</label>
+        <select>
+          <option>All Manufacturers</option>
+          <option>Maruti Suzuki</option>
+          <option>Tata Motors</option>
+          <option>Hyundai</option>
+          <option>Mahindra</option>
+          <option>Kia</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Budget Range</label>
+        <select>
+          <option>Any Budget</option>
+          <option>Under ₹5 Lakhs</option>
+          <option>₹5 – ₹10 Lakhs</option>
+          <option>₹10 – ₹15 Lakhs</option>
+          <option>Above ₹15 Lakhs</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Vehicle Type</label>
+        <select>
+          <option>All Types</option>
+          <option>Hatchback</option>
+          <option>SUV</option>
+          <option>Sedan</option>
+          <option>MUV</option>
+          <option>Electric</option>
+        </select>
+      </div>
+      <button class="btn btn-primary search-btn">Search Vehicles</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="value">500+</div>
+        <div class="label">Vehicle Models</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">1,500+</div>
+        <div class="label">Expert Reviews</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">25+</div>
+        <div class="label">Brands Covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">2M+</div>
+        <div class="label">Monthly Users</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Launches -->
+<section id="launches">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="tag">Latest</span>
+        <h2>Featured Vehicle Launches</h2>
+      </div>
+      <a href="#" class="view-all">View All →</a>
+    </div>
+    <div class="car-grid">
+      <div class="car-card">
+        <div class="car-image">🚗</div>
+        <div class="car-badge">New</div>
+        <div class="car-content">
+          <h3>Compact SUV Elite</h3>
+          <div class="car-price">₹8.4L – ₹13.2L <span>(ex-showroom)</span></div>
+          <div class="car-specs">
+            <div><b>18.6 km/l</b>Efficiency</div>
+            <div><b>Petrol/CNG</b>Fuel</div>
+            <div><b>5</b>Seater</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-image">🚙</div>
+        <div class="car-badge success">Best Seller</div>
+        <div class="car-content">
+          <h3>Family Sedan Pro</h3>
+          <div class="car-price">₹11.9L – ₹16.5L <span>(ex-showroom)</span></div>
+          <div class="car-specs">
+            <div><b>21.1 km/l</b>Efficiency</div>
+            <div><b>Diesel</b>Fuel</div>
+            <div><b>5</b>Seater</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-image">⚡</div>
+        <div class="car-badge">Coming Soon</div>
+        <div class="car-content">
+          <h3>Electric Hatchback EV-1</h3>
+          <div class="car-price">₹9.8L+ <span>(estimated)</span></div>
+          <div class="car-specs">
+            <div><b>320 km</b>Range</div>
+            <div><b>Electric</b>Fuel</div>
+            <div><b>5</b>Seater</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-image">🚗</div>
+        <div class="car-badge success">Top Rated</div>
+        <div class="car-content">
+          <h3>Premium SUV Adventure</h3>
+          <div class="car-price">₹14.2L – ₹21.8L <span>(ex-showroom)</span></div>
+          <div class="car-specs">
+            <div><b>16.4 km/l</b>Efficiency</div>
+            <div><b>Diesel 4x4</b>Fuel</div>
+            <div><b>7</b>Seater</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="alt">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="tag">Browse</span>
+        <h2>Find by Category</h2>
+      </div>
+    </div>
+    <div class="category-grid">
+      <div class="category-card">
+        <div class="category-icon">🚗</div>
+        <span>Hatchback</span>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🚙</div>
+        <span>SUV</span>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">🚘</div>
+        <span>Sedan</span>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">⚡</div>
+        <span>Electric</span>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">👨‍👩‍👧</div>
+        <span>7-Seater</span>
+      </div>
+      <div class="category-card">
+        <div class="category-icon">💰</div>
+        <span>Budget Options</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Compare Section -->
+<section id="compare">
+  <div class="container">
+    <div class="compare-container">
+      <div class="compare-cards">
+        <div class="compare-card">
+          <div class="car-icon">🚗</div>
+          <b>Compact SUV Elite</b>
+          <span>₹8.4L – ₹13.2L</span>
+        </div>
+        <div class="compare-vs">VS</div>
+        <div class="compare-card">
+          <div class="car-icon">🚙</div>
+          <b>Family Sedan Pro</b>
+          <span>₹11.9L – ₹16.5L</span>
+        </div>
+      </div>
+      <div class="compare-content">
+        <h2>Compare Vehicles Side-by-Side</h2>
+        <p>Analyze specifications, features, safety ratings, and performance metrics. Make confident decisions with comprehensive comparison tools and detailed technical specifications.</p>
+        <button class="btn btn-primary">Open Comparison Tool →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section id="reviews" class="alt">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="tag">Expert Analysis</span>
+        <h2>Professional Reviews & Testing</h2>
+      </div>
+      <a href="#" class="view-all">View All Reviews →</a>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-header">
+          <h3>Compact SUV Elite — Comprehensive Road Test</h3>
+          <div class="review-score">8.4</div>
+        </div>
+        <p>Extensive testing in urban and highway conditions reveals strong fuel efficiency, comfortable suspension, and excellent space utilization for family use.</p>
+        <div class="review-meta">
+          <span>AutoInsight Team</span>
+          <b>12 min</b>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <h3>Electric Hatchback EV-1: Week-Long Assessment</h3>
+          <div class="review-score">7.9</div>
+        </div>
+        <p>Daily commute performance demonstrates excellent efficiency and low operating costs. Charging infrastructure remains the primary consideration for long-distance travel.</p>
+        <div class="review-meta">
+          <span>AutoInsight Team</span>
+          <b>9 min</b>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <h3>Premium SUV Adventure — Generation Comparison</h3>
+          <div class="review-score">8.7</div>
+        </div>
+        <p>Significant improvements in safety features and interior quality distinguish the new generation. Advanced driver assistance systems and premium materials throughout.</p>
+        <div class="review-meta">
+          <span>AutoInsight Team</span>
+          <b>15 min</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter Section -->
+<section id="news">
+  <div class="container">
+    <div class="newsletter">
+      <div>
+        <h2>Stay Updated</h2>
+        <p>Receive latest vehicle launches, reviews, and pricing updates directly to your inbox. No spam, only relevant information.</p>
+      </div>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <div class="footer-logo">Auto<span>Insight</span></div>
+        <p class="footer-desc">India's most trusted platform for comprehensive automotive intelligence. Reviews, pricing, and detailed comparisons to guide your vehicle purchase decision.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Explore</h4>
+        <a href="#">Vehicle Browse</a>
+        <a href="#">Expert Reviews</a>
+        <a href="#">Compare Tools</a>
+        <a href="#">Pricing Guide</a>
+      </div>
+      <div class="footer-section">
+        <h4>Manufacturers</h4>
+        <a href="#">Maruti Suzuki</a>
+        <a href="#">Tata Motors</a>
+        <a href="#">Hyundai Motors</a>
+        <a href="#">Mahindra & Mahindra</a>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Partnership</a>
+        <a href="#">Contact Support</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AutoInsight. All rights reserved.</span>
+      <span>Engineered for India 🇮🇳</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
